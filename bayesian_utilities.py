@@ -4,7 +4,7 @@ import numpy as np
 def boulwareUtilities (rv,Deadline):
 	# print "-----Boulware----------"
 	ut = []
-	beta = 1.2
+	beta = 0.2
 	beta = float(1)/beta
 	for i in range(1,Deadline+1):
 		minm = min(i,Deadline)
@@ -243,8 +243,8 @@ def FireRV(RV,roundnum,Deadline,UpdateRate,GridSize,Gridcoords):
 	
 	if(roundnum==0):
 		# print "---round 1: =="
-		# direction=random.randint(1,4)    #  ---> 4
-		direction=random.choice([1,4])     #  ---> 2
+		direction=random.randint(1,4)    #  ---> 4
+		# direction=random.choice([1,4])     #  ---> 2
 		### Gridcoords Updation 
 		flag=getflag(direction,Gridcoords,GridSize)
 		# print "------"
@@ -262,8 +262,8 @@ def FireRV(RV,roundnum,Deadline,UpdateRate,GridSize,Gridcoords):
 
 	elif(roundnum%UpdateRate==0):
 		# print "---update == " + str(roundnum)   
-		# direction=random.randint(1,4)
-		direction=random.choice([1,4])
+		direction=random.randint(1,4)
+		# direction=random.choice([1,4])
 		flag=getflag(direction,Gridcoords,GridSize)
 		# print "------"
 		# print direction
@@ -300,9 +300,9 @@ def main(A_utility_space,B_utility_space,Deadline):
 			A_utilites = list(A_utility_space.values())
 			B_utilites = list(B_utility_space.values())
 
-			A = boulwareUtilities(rv,Deadline)            ###### -> Boulware
+			# A = boulwareUtilities(rv,Deadline)            ###### -> Boulware
 			# A = GenerateTimUtility(rv,Deadline)         ###### -> ONAC
-			A.reverse()
+			# A.reverse()
 			# print A
 
 			# UpdateRate = 2
@@ -314,7 +314,7 @@ def main(A_utility_space,B_utility_space,Deadline):
 			RV=[0]
 			
 			# random_rv=[0.12,0.75]
-			# random_rv=[0.12,0.321,0.57,0.75]
+			random_rv=[0.12,0.321,0.57,0.75]
 			
 			means_offers=[]
 			gamma=[]
@@ -349,13 +349,13 @@ def main(A_utility_space,B_utility_space,Deadline):
 			mean1_RV=0
 
 			for rv in random_rv:
-				# Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
-				Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
+				Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
+				# Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
 
 			# print Utilities[1]
 			# break
 
-			GridSize=20
+			GridSize=100
 
 			# Gridcoords=[GridSize/2 ,GridSize/2]
 
@@ -368,13 +368,17 @@ def main(A_utility_space,B_utility_space,Deadline):
 			for roundnum in range(1,Deadline+1):
 				# roundnum = i
 
-				# RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
-				RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
-
-
 				
-				# utility_RV=GenerateTimUtility(RV[roundnum-1],Deadline)              ###### -> Tims
-				utility_RV=boulwareUtilities(RV[roundnum-1],Deadline)             ###### -> Boulware
+
+				RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
+				# RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
+
+				A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
+				# A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
+				A.reverse()
+				
+				utility_RV=GenerateTimUtility(RV[roundnum-1],Deadline)              ###### -> Tims
+				# utility_RV=boulwareUtilities(RV[roundnum-1],Deadline)             ###### -> Boulware
 
 				temp_offers=[]
 				
@@ -458,8 +462,8 @@ def main(A_utility_space,B_utility_space,Deadline):
 				# B.reverse()
 
 				# print len(counter_weighted_utility) , roundnum
-
-				A_ut = closest_val(A[roundnum],A_utilites)
+				# print roundnum
+				A_ut = closest_val(A[roundnum-1],A_utilites)
 				if(A_ut <= A_utility_space[B_old_bid] ):
 					# print "A accepts bid by agent B with utility: " , A_utility_space[B_old_bid] ,B_old_bid 
 					# print "B's utility: " , B_utility_space[B_old_bid]  , " A's utility: " , A_utility_space[B_old_bid]
@@ -509,9 +513,9 @@ def main(A_utility_space,B_utility_space,Deadline):
 
 if __name__ == '__main__':
 
-	B_utility_space = {'a' : 0.0 , 'b' : 0.1 , 'c' : 0.2 , 'd' : 0.3 , 'e' : 0.4 , 'f' : 0.5 , 'g' : 0.6 , 'h' : 0.7 , 'i' : 0.8 , 'j' : 0.9 , 'k' : 1.0 };
+	B_utility_space = {'a' : 0.0 , 'b' : 0.1 , 'c' : 0.25 , 'd' : 0.3 , 'e' : 0.4 , 'f' : 0.5 , 'g' : 0.6 , 'h' : 0.7 , 'i' : 0.75 , 'j' : 0.9 , 'k' : 1.0 };
 
-	A_utility_space = {'a' : 1.0 , 'b' : 0.9 , 'c' : 0.8 , 'd' : 0.7 , 'e' : 0.6 , 'f' : 0.5 , 'g' : 0.4 , 'h' : 0.3 , 'i' : 0.2 , 'j' : 0.1 , 'k' : 0.0 };
+	A_utility_space = {'a' : 1.0 , 'b' : 0.9 , 'c' : 0.75 , 'd' : 0.7 , 'e' : 0.6 , 'f' : 0.5 , 'g' : 0.4 , 'h' : 0.3 , 'i' : 0.25 , 'j' : 0.1 , 'k' : 0.0 };
 
 	main(A_utility_space,B_utility_space,100)
 

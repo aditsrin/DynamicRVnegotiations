@@ -3,7 +3,7 @@ import os, sys, re, math, random
 def boulwareUtilities (rv,Deadline):
 	# print "-----Boulware----------"
 	ut = []
-	beta = 1.2
+	beta = 0.2
 	beta = float(1)/beta
 	for i in range(1,Deadline+1):
 		minm = min(i,Deadline)
@@ -268,8 +268,8 @@ def main(A_utility_space,B_utility_space,Deadline):
 			B_utilites = list(B_utility_space.values())
 
 			
-			# A = GenerateTimUtility(rv,Deadline)
-			A = boulwareUtilities(rv,Deadline)
+			A = GenerateTimUtility(rv,Deadline)       #### -> Tims
+			# A = boulwareUtilities(rv,Deadline)          #### -> Boulware
 
 			A.reverse()
 			# print A
@@ -281,7 +281,7 @@ def main(A_utility_space,B_utility_space,Deadline):
 			delaylist=[]
 
 			RV=[0]
-			# random_rv=[0.12,0.75]
+			random_rv=[0.12,0.75]
 			# random_rv=[0.12,0.321,0.57,0.75]
 
 			counter = []
@@ -319,21 +319,21 @@ def main(A_utility_space,B_utility_space,Deadline):
 			# print Utilities[1]
 			# break
 
-			# GridSize=20
+			GridSize=100
 
 			# Gridcoords=[GridSize/2 ,GridSize/2]
 
 
 
-			# Gridcoords=[GridSize/2 +random.choice([-4,0,4]),GridSize/2+random.choice([-4,0,4])]
+			Gridcoords=[GridSize/2 +random.choice([-4,0,4]),GridSize/2+random.choice([-4,0,4])]
 
 			B_old_bid = 'k'
 
 			for roundnum in range(1,Deadline+1):
 				# roundnum = i
 
-				# RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
-				RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
+				RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
+				# RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
 
 
 				# B = GenerateTimUtility(RV[-1],Deadline)
@@ -396,9 +396,9 @@ def main(A_utility_space,B_utility_space,Deadline):
 
 if __name__ == '__main__':
 
-	B_utility_space = {'a' : 0.0 , 'b' : 0.1 , 'c' : 0.2 , 'd' : 0.3 , 'e' : 0.4 , 'f' : 0.5 , 'g' : 0.6 , 'h' : 0.7 , 'i' : 0.8 , 'j' : 0.9 , 'k' : 1.0 };
+	B_utility_space = {'a' : 0.0 , 'b' : 0.1 , 'c' : 0.25 , 'd' : 0.3 , 'e' : 0.4 , 'f' : 0.5 , 'g' : 0.6 , 'h' : 0.7 , 'i' : 0.75 , 'j' : 0.9 , 'k' : 1.0 };
 
-	A_utility_space = {'a' : 1.0 , 'b' : 0.9 , 'c' : 0.8 , 'd' : 0.7 , 'e' : 0.6 , 'f' : 0.5 , 'g' : 0.4 , 'h' : 0.3 , 'i' : 0.2 , 'j' : 0.1 , 'k' : 0.0 };
+	A_utility_space = {'a' : 1.0 , 'b' : 0.9 , 'c' : 0.75 , 'd' : 0.7 , 'e' : 0.6 , 'f' : 0.5 , 'g' : 0.4 , 'h' : 0.3 , 'i' : 0.25 , 'j' : 0.1 , 'k' : 0.0 };
 
 	main(A_utility_space,B_utility_space,100)
 
