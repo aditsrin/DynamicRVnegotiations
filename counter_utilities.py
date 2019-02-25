@@ -115,8 +115,8 @@ def getdelay(delay_list,prevdelay):
 #############################################################
 
 def getmeetingrv(RV,roundnum,UpdateRate,delaylist,Deadline):
-	# delay_list=[45,40,35,30,25,20,15,10,5]
-	delay_list=[40,30,20,10]
+	delay_list=[45,40,35,30,25,20,15,10,5]
+	# delay_list=[40,30,20,10]
 	if(roundnum==0):
 		delay=random.choice(delay_list)
 		delaylist.append(delay)
@@ -126,8 +126,8 @@ def getmeetingrv(RV,roundnum,UpdateRate,delaylist,Deadline):
 
 	elif(roundnum%UpdateRate==0):
 		# print "in" 
-		# delay=getdelay(delay_list,delaylist[len(delaylist)-1])   #### -> 9
-		delay=getdelayfor4(delay_list,delaylist[len(delaylist)-1])    #### -> 4
+		delay=getdelay(delay_list,delaylist[len(delaylist)-1])   #### -> 9
+		# delay=getdelayfor4(delay_list,delaylist[len(delaylist)-1])    #### -> 4
 		delaylist.append(delay)
 		# print delay
 		utility=getdelaycost(delay)
@@ -162,8 +162,8 @@ def meetingrandomRV(random_rv):
 	# delay_list=[5,10,15,20,25,30,35,40,45]
 	
 	alpha=1.2
-	# delay_list=[45,40,35,30,25,20,15,10,5]
-	delay_list=[40,30,20,10]
+	delay_list=[45,40,35,30,25,20,15,10,5]
+	# delay_list=[40,30,20,10]
 	Value=200
 	maxm=Value-math.pow(5,alpha)*2
 	minm=Value-math.pow(45,alpha)*2
@@ -243,8 +243,8 @@ def FireRV(RV,roundnum,Deadline,UpdateRate,GridSize,Gridcoords):
 	
 	if(roundnum==0):
 		# print "---round 1: =="
-		# direction=random.randint(1,4)    #  ---> 4
-		direction=random.choice([1,4])     #  ---> 2
+		direction=random.randint(1,4)    #  ---> 4
+		# direction=random.choice([1,4])     #  ---> 2
 		### Gridcoords Updation 
 		flag=getflag(direction,Gridcoords,GridSize)
 		# print "------"
@@ -262,8 +262,8 @@ def FireRV(RV,roundnum,Deadline,UpdateRate,GridSize,Gridcoords):
 
 	elif(roundnum%UpdateRate==0):
 		# print "---update == " + str(roundnum)   
-		# direction=random.randint(1,4)
-		direction=random.choice([1,4])
+		direction=random.randint(1,4)
+		# direction=random.choice([1,4])
 		flag=getflag(direction,Gridcoords,GridSize)
 		# print "------"
 		# print direction
@@ -282,6 +282,55 @@ def FireRV(RV,roundnum,Deadline,UpdateRate,GridSize,Gridcoords):
 		return RV[len(RV)-1]
 
 
+def generatereservationvalue(flag,roundnum,RV):
+	if(flag==1):
+		if(roundnum==1):
+		 	return random.choice([0.1,0.2,0.6,0.9])
+		elif(roundnum%(50)==0):
+			return random.choice([0.1,0.2,0.6,0.9])
+		else:
+			return RV[len(RV)-1]
+
+	elif(flag==2):
+		if(roundnum==1):
+		 	return random.choice([0.1,0.2,0.6,0.9])
+		elif(roundnum%(20)==0):
+			return random.choice([0.1,0.2,0.6,0.9])
+		else:
+			return RV[len(RV)-1]
+	elif(flag==3):
+		if(roundnum==1):
+		 	return random.choice([0.1,0.2,0.6,0.9])
+		elif(roundnum%(10)==0):
+			return random.choice([0.1,0.2,0.6,0.9])
+		else:
+			return RV[len(RV)-1]
+	elif(flag==4):
+		if(roundnum==1):
+		 	return random.choice([0.1,0.2,0.6,0.9])
+		elif(roundnum%(5)==0):
+			return random.choice([0.1,0.2,0.6,0.9])
+		else:
+			return RV[len(RV)-1]
+
+	elif(flag==5):
+		if(roundnum==1):
+		 	return random.choice([0.1,0.2,0.6,0.9])
+		elif(roundnum%(2)==0):
+			return random.choice([0.1,0.2,0.6,0.9])
+		else:
+			return RV[len(RV)-1]
+		
+	elif(flag==6):
+		#l=[0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.6]
+		#l=[0.0, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.4]
+		l=[  0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.75, 0.4]
+		return l[roundnum-1]
+
+	elif(flag==7):
+		l=[0.9,0.1,0.36 ,0.75, 0.75 ,0.12 ,0.75,0.12 ,0.75,0.12]
+		# l=[0.2,0.3,0.4,0.5,0.6,0.7]
+		return l[(roundnum/2)%2]
 # def getclosest():
 
 def main(A_utility_space,B_utility_space,Deadline):
@@ -292,6 +341,8 @@ def main(A_utility_space,B_utility_space,Deadline):
 
 		Averageutility_A = 0.0
 		Averageutility_B = 0.0
+
+		disagree =0 
 
 		for iterations in xrange(1,101):
 			rv = 0
@@ -314,7 +365,7 @@ def main(A_utility_space,B_utility_space,Deadline):
 
 
 			RV=[0]
-			random_rv=[0.12,0.75]         ###-> fire
+			# random_rv=[0.12,0.75]         ###-> fire
 			# random_rv=[0.12,0.321,0.57,0.75]
 
 			counter = []
@@ -346,8 +397,8 @@ def main(A_utility_space,B_utility_space,Deadline):
 			new_WeightedUtility=[]
 
 			for rv in random_rv:
-				Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
-				# Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
+				# Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
+				Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
 
 			# print Utilities[1]
 			# break
@@ -362,14 +413,17 @@ def main(A_utility_space,B_utility_space,Deadline):
 
 			B_old_bid = 'k'
 
+			agree = -1
+
 			for roundnum in range(1,Deadline+1):
 				# roundnum = i
 
-				RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
-				# RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
+				# RV.append(float("{0:.4f}".format(generatereservationvalue(7,roundnum-1,RV)) ))
+				# RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
+				RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
 
-				A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
-				# A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
+				# A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
+				A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
 				A.reverse()
 
 				ind=getindex(RV[roundnum],intervals)
@@ -410,6 +464,7 @@ def main(A_utility_space,B_utility_space,Deadline):
 					# print "B's utility: " , B_utility_space[B_old_bid]  , " A's utility: " , A_utility_space[B_old_bid]
 					Averageutility_A += A_utility_space[B_old_bid]
 					Averageutility_B += B_utility_space[B_old_bid]
+					agree =1
 					break
 				# print A_ut
 				keys = [key for key, value in A_utility_space.iteritems() if value == A_ut]
@@ -436,6 +491,7 @@ def main(A_utility_space,B_utility_space,Deadline):
 					# print "B's utility: " , B_utility_space[A_bid]  , " A's utility: " , A_utility_space[A_bid]
 					Averageutility_A += A_utility_space[A_bid]
 					Averageutility_B += B_utility_space[A_bid]
+					agree = 1
 					break
 
 				else:
@@ -447,10 +503,13 @@ def main(A_utility_space,B_utility_space,Deadline):
 			# print counter_weighted_utility
 			# print B
 			# print len(counter_weighted_utility) , len(B)
+		if(agree==-1):
+			disagree +=1
 		Averageutility_A = Averageutility_A / 100
 		Averageutility_B = Averageutility_B / 100
  
 		print "A's average utility: " , Averageutility_A , " B's average utility: " , Averageutility_B
+		print "Disagreements are: " , disagree
 
 if __name__ == '__main__':
 

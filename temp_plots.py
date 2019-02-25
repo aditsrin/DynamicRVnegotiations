@@ -17,16 +17,10 @@ if __name__ == '__main__':
 	# C=[0.423,0.434,0.4225,0.4075,0.3665,0.431,0.438,0.427,0.427,0.421]
 	# l=[0.4,0.4,0.4,0.4,0.3,0.4,0.4,0.4,0.4,0.35]
 
-	T = [0.29,0.2755,0.295,0.2395,0.247,0.308,0.254,0.2985,0.248,0.259]
-	BR=[0.35,0.3445,0.335,0.3005,0.273,0.447,0.355,0.3515,0.302,0.301]
-	C=[0.429,0.335,0.2635,0.363,0.238,0.432,0.326,0.358,0.324,0.317]
-	l=[0.417,0.385,0.38,0.3675,0.251,0.446,0.381,0.374,0.369,0.395]
-
-	lT=[0.583,0.615,0.62,0.6325,0.209,0.434,0.389,0.376,0.371,0.365]
-
-	T = [0.31987,0.344899,0.312099,0.303078,0.246754]
-	BR =[0.679603,0.654546,0.617366,0.546409,0.412775]
-	C= [0.6415,0.634,0.5945,0.523,0.411]
+	T=[0.38,0.3705,0.354,0.331,0.2605,0.397,0.39,0.385,0.342,0.261]
+	BR=[0.62,0.6295,0.646,0.649,0.4995,0.603,0.61,0.605,0.588,0.429]
+	C=[0.615,0.6005,0.6065,0.5945,0.4475,0.596,0.593,0.5985,0.556,0.3825]
+	l=[0.434,0.434,0.4065,0.421,0.361,0.542,0.516,0.513,0.494,0.45]
 
 	# T=[0.636,0.69,0.67,0.69,0.688,0.631,0.63,0.635,0.641,0.658]
 	# BR=[0.686,0.702,0.695,0.709,0.733,0.639,0.64,0.64,0.643,0.662]
@@ -80,8 +74,8 @@ if __name__ == '__main__':
 	x_axis=[]
 	my_xticks=[]
 	UpdateRate=[2,5,10,20,50]
-	# Intervals=[4,2]
-	Intervals = [9]
+	Intervals=[4,2]
+	# Intervals = [9]
 
 	for i in xrange(1,len(T)+1):
 		x_axis.append(i)
@@ -101,11 +95,11 @@ if __name__ == '__main__':
 	# 	# PerE.append((float(T[i]-E[i])/T[i])*100)
 	# 	Perl.append((float(T[i]-l[i])/T[i])*100)
 
-	for i in xrange(0,len(T)):
-		PerBR.append((float(BR[i]-T[i])/T[i])*100)
-		PerC.append((float(C[i]-T[i])/T[i])*100)
-		# PerE.append((float(T[i]-E[i])/T[i])*100)
-		Perl.append((float(l[i]-lT[i])/lT[i])*100)
+	# for i in xrange(0,len(T)):
+	# 	PerBR.append((float(BR[i]-T[i])/T[i])*100)
+	# 	PerC.append((float(C[i]-T[i])/T[i])*100)
+	# 	# PerE.append((float(T[i]-E[i])/T[i])*100)
+	# 	Perl.append((float(l[i]-T[i])/T[i])*100)
 
 
 	plt.figure('smoothness')
@@ -128,23 +122,24 @@ if __name__ == '__main__':
 
 	legend_properties = {'weight':'bold', 'size':15}
 
-	lineBR,=plt.plot(x_axis,PerBR, marker='o', linestyle='--', color='r', linewidth=6, markersize=12)
-	lineC, =plt.plot(x_axis,PerC, marker='^', linestyle='-.', color='g', linewidth=7, markersize=12)
+	lineT,=plt.plot(x_axis,T, marker='o', linestyle='-', color='b', linewidth=2, markersize=12)
+	lineBR,=plt.plot(x_axis,BR, marker='o', linestyle='--', color='r', linewidth=6, markersize=12)
+	lineC, =plt.plot(x_axis,C, marker='^', linestyle='-.', color='g', linewidth=7, markersize=12)
 	# lineE, =plt.plot(x_axis,PerE, marker='s', linestyle=':', color='b', linewidth=7, markersize=12)
-	linel, =plt.plot(x_axis,Perl, marker='d', linestyle='-', color='m', linewidth=2, markersize=12)
+	linel, =plt.plot(x_axis,l, marker='d', linestyle=':', color='m', linewidth=6, markersize=12)
 	
 
 	# plt.legend([lineBR,lineC,lineE,linel],["Bayesian","Counter","Exponential","LSTM"],loc=0,ncol=1, handlelength=4,prop=legend_properties)
-	plt.legend([lineBR,lineC,linel],["Bayesian","Counter","LSTM"],loc=0,ncol=1, handlelength=4,prop=legend_properties)
+	plt.legend([lineT,lineBR,lineC,linel],["Boulware","Bayesian","Counter","LSTM"],loc=0,ncol=1, handlelength=4,prop=legend_properties)
 	plt.xlabel("Hypothesis,UpdateRate",**font)
 	plt.ylabel("Average Percentage Utility",**font)
 	# plt.ylim(-20,40)
 	# ax.set_xticks(x_axis, minor=True)
 	# plt.title("Residual Error for Meeting Scheduling Domain",**font)
-	print np.mean(PerBR)
-	print np.mean(PerC)
-	# print np.mean(PerE)
-	print np.mean(Perl)
+	# print np.mean(PerBR)
+	# print np.mean(PerC)
+	# # print np.mean(PerE)
+	# print np.mean(Perl)
 
 	# plt.show()
-	# plt.savefig('outcutilityonac.pdf', format='pdf', dpi=1000)
+	plt.savefig('outcutilityboul_t.pdf', format='pdf', dpi=1000)
