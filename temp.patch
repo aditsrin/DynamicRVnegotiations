@@ -1,0 +1,210 @@
+diff --git a/bayesian_utilities.py b/bayesian_utilities.py
+index a46e15a..aa52413 100644
+--- a/bayesian_utilities.py
++++ b/bayesian_utilities.py
+@@ -399,13 +399,13 @@ def main(A_utility_space,B_utility_space,Deadline):
+ 			mean1_RV=0
+ 
+ 			for rv in random_rv:
+-				# Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
+-				Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
++				Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
++				# Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
+ 
+ 			# print Utilities[1]
+ 			# break
+ 
+-			GridSize=100
++			GridSize=20
+ 
+ 			# Gridcoords=[GridSize/2 ,GridSize/2]
+ 
+@@ -425,12 +425,12 @@ def main(A_utility_space,B_utility_space,Deadline):
+ 				# RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
+ 				RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
+ 
+-				# A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
+-				A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
++				A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
++				# A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
+ 				A.reverse()
+ 				
+-				# utility_RV=GenerateTimUtility(RV[roundnum-1],Deadline)              ###### -> Tims
+-				utility_RV=boulwareUtilities(RV[roundnum-1],Deadline)             ###### -> Boulware
++				utility_RV=GenerateTimUtility(RV[roundnum-1],Deadline)              ###### -> Tims
++				# utility_RV=boulwareUtilities(RV[roundnum-1],Deadline)             ###### -> Boulware
+ 
+ 				temp_offers=[]
+ 				
+@@ -464,12 +464,7 @@ def main(A_utility_space,B_utility_space,Deadline):
+ 					variation=0
+ 					d1=0
+ 					d2=0
+-					for j in xrange(0,len(offers[i])):
+-						variation += (RV[j] - mean_RV) * (offers[i][j]-means_offers[i])
+-						d1+=math.pow((RV[j] - mean_RV),2)
+-						d2+=math.pow((offers[i][j]-means_offers[i]),2)
+-					denominator=math.sqrt(d1*d2)
+-					#if(roundnum>=1):
++					for j in xrange(0,len(offers[i])):ok
+ 					gamma[i] = float("{0:.4f}".format(float(variation)/denominator))
+ 					new_gamma[i]=float(gamma[i]+1)/2
+ 						
+diff --git a/counter_utilities.py b/counter_utilities.py
+index da1d168..9158a69 100644
+--- a/counter_utilities.py
++++ b/counter_utilities.py
+@@ -397,13 +397,13 @@ def main(A_utility_space,B_utility_space,Deadline):
+ 			new_WeightedUtility=[]
+ 
+ 			for rv in random_rv:
+-				# Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
+-				Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
++				Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
++				# Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
+ 
+ 			# print Utilities[1]
+ 			# break
+ 
+-			GridSize=100
++			GridSize=20
+ 
+ 			# Gridcoords=[GridSize/2 ,GridSize/2]
+ 
+@@ -422,8 +422,8 @@ def main(A_utility_space,B_utility_space,Deadline):
+ 				# RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
+ 				RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
+ 
+-				# A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
+-				A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
++				A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
++				# A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
+ 				A.reverse()
+ 
+ 				ind=getindex(RV[roundnum],intervals)
+diff --git a/plots.py b/plots.py
+index dee2fe6..6e68091 100644
+--- a/plots.py
++++ b/plots.py
+@@ -17,16 +17,32 @@ if __name__ == '__main__':
+ 	# C=[0.423,0.434,0.4225,0.4075,0.3665,0.431,0.438,0.427,0.427,0.421]
+ 	# l=[0.4,0.4,0.4,0.4,0.3,0.4,0.4,0.4,0.4,0.35]
+ 
+-	T = [0.29,0.2755,0.295,0.2395,0.247,0.308,0.254,0.2985,0.248,0.259]
+-	BR=[0.35,0.3445,0.335,0.3005,0.273,0.447,0.355,0.3515,0.302,0.301]
+-	C=[0.429,0.335,0.2635,0.363,0.238,0.432,0.326,0.358,0.324,0.317]
+-	l=[0.417,0.385,0.38,0.3675,0.251,0.446,0.381,0.374,0.369,0.395]
++	# T = [0.29,0.2755,0.295,0.2395,0.247,0.308,0.254,0.2985,0.248,0.259]
++	# BR=[0.4,0.3445,0.335,0.3005,0.273,0.447,0.355,0.3515,0.302,0.301]
++	# C=[0.429,0.335,0.2635,0.363,0.238,0.432,0.326,0.358,0.324,0.317]
++	# l=[0.417,0.385,0.38,0.3675,0.251,0.446,0.381,0.374,0.369,0.395]
+ 
+-	lT=[0.583,0.615,0.62,0.6325,0.209,0.434,0.389,0.376,0.371,0.365]
++	# lT=[0.583,0.615,0.62,0.6325,0.209,0.434,0.389,0.376,0.371,0.365]
+ 
+-	T = [0.31987,0.344899,0.312099,0.303078,0.246754]
++	# T = [0.29,0.2755,0.295,0.2395,0.247,0.308,0.254,0.2985,0.248,0.259]
++	# BR=[0.35,0.3445,0.335,0.3005,0.273,0.447,0.355,0.3515,0.302,0.301]
++	# C=[0.429,0.335,0.2635,0.363,0.238,0.432,0.326,0.358,0.324,0.317]
++	# l=[0.417,0.385,0.38,0.3675,0.251,0.446,0.381,0.374,0.369,0.395]
++
++	# lT=[0.583,0.615,0.62,0.6325,0.209,0.434,0.389,0.376,0.371,0.365]
++
++	T=[0.31987,0.344899,0.312099,0.303078,0.246754]
+ 	BR =[0.679603,0.654546,0.617366,0.546409,0.412775]
+ 	C= [0.6415,0.634,0.5945,0.523,0.411]
++	l=[0.52,0.53,0.3,0.3,0.5]
++	lT=[0.5,0.5,0.22,0.25,0.41]
++
++
++	# T =[0.242108,0.26725,0.232998,0.220519,0.19718]
++	# BR=[0.297591,0.292459,0.296733,0.269163,0.252442]
++	# C=[0.3675,0.328,0.27,0.359,0.336]
++	# l =[0.036167,0.011098,0.098154,0.003923,0.006884]
++	# lT=[0.583,0.615,0.62,0.6325,0.209]
+ 
+ 	# T=[0.636,0.69,0.67,0.69,0.688,0.631,0.63,0.635,0.641,0.658]
+ 	# BR=[0.686,0.702,0.695,0.709,0.733,0.639,0.64,0.64,0.643,0.662]
+@@ -147,4 +163,6 @@ if __name__ == '__main__':
+ 	print np.mean(Perl)
+ 
+ 	# plt.show()
+-	# plt.savefig('outcutilityonac.pdf', format='pdf', dpi=1000)
+\ No newline at end of file
++	plt.savefig('outcutilityboulmeet.pdf', format='pdf', dpi=1000)
++
++
+diff --git a/predictionfr100.pdf b/predictionfr100.pdf
+index b057791..99ca999 100644
+Binary files a/predictionfr100.pdf and b/predictionfr100.pdf differ
+diff --git a/predictionplots.py b/predictionplots.py
+index 0c7c59a..b430265 100644
+--- a/predictionplots.py
++++ b/predictionplots.py
+@@ -20,11 +20,12 @@ if __name__ == '__main__':
+ 
+ 
+ 
++
+ 	x_axis=[]
+ 	my_xticks=[]
+ 	UpdateRate=[2,5,10,20,50]
+-	# Intervals=[4,2]
+-	Intervals = [9]
++	Intervals=[4,2]
++	# Intervals = [9]
+ 
+ 	for i in xrange(1,len(PerC)+1):
+ 		x_axis.append(i)
+@@ -52,7 +53,7 @@ if __name__ == '__main__':
+ 	# plt.legend([lineBR,lineC,lineE,linel],["Bayesian","Counter","Exponential","LSTM"],loc=0,ncol=1, handlelength=4,prop=legend_properties)
+ 	plt.legend([lineBR,lineC,linel],["Bayesian","Counter","LSTM"],loc=0,ncol=1, handlelength=4,prop=legend_properties)
+ 	plt.xlabel("Hypothesis,UpdateRate",**font)
+-	plt.ylabel("Number of times Misclassified",**font)
++	plt.ylabel("Average Prediction Difference",**font)
+ 
+ 	print np.mean(PerBR)
+ 	print np.mean(PerC)
+diff --git a/temp_plots.py b/temp_plots.py
+index b497455..cf01e4c 100644
+--- a/temp_plots.py
++++ b/temp_plots.py
+@@ -17,10 +17,15 @@ if __name__ == '__main__':
+ 	# C=[0.423,0.434,0.4225,0.4075,0.3665,0.431,0.438,0.427,0.427,0.421]
+ 	# l=[0.4,0.4,0.4,0.4,0.3,0.4,0.4,0.4,0.4,0.35]
+ 
+-	T=[0.38,0.3705,0.354,0.331,0.2605,0.397,0.39,0.385,0.342,0.261]
+-	BR=[0.62,0.6295,0.646,0.649,0.4995,0.603,0.61,0.605,0.588,0.429]
+-	C=[0.615,0.6005,0.6065,0.5945,0.4475,0.596,0.593,0.5985,0.556,0.3825]
+-	l=[0.434,0.434,0.4065,0.421,0.361,0.542,0.516,0.513,0.494,0.45]
++	T=[0.31987,0.344899,0.312099,0.303078,0.246754]
++	BR =[0.679603,0.654546,0.617366,0.546409,0.412775]
++	C= [0.6415,0.634,0.5945,0.523,0.411]
++	l=[0.4,0.4,0.4,0.4,0.456]
++
++	# T=[0.38,0.3705,0.354,0.331,0.2605,0.397,0.39,0.385,0.342,0.261]
++	# BR=[0.62,0.6295,0.646,0.649,0.4995,0.603,0.61,0.605,0.588,0.429]
++	# C=[0.615,0.6005,0.6065,0.5945,0.4475,0.596,0.593,0.5985,0.556,0.3825]
++	# l=[0.434,0.434,0.4065,0.421,0.361,0.542,0.516,0.513,0.494,0.45]
+ 
+ 	# T=[0.636,0.69,0.67,0.69,0.688,0.631,0.63,0.635,0.641,0.658]
+ 	# BR=[0.686,0.702,0.695,0.709,0.733,0.639,0.64,0.64,0.643,0.662]
+@@ -74,8 +79,8 @@ if __name__ == '__main__':
+ 	x_axis=[]
+ 	my_xticks=[]
+ 	UpdateRate=[2,5,10,20,50]
+-	Intervals=[4,2]
+-	# Intervals = [9]
++	# Intervals=[4,2]
++	Intervals = [9]
+ 
+ 	for i in xrange(1,len(T)+1):
+ 		x_axis.append(i)
+@@ -142,4 +147,4 @@ if __name__ == '__main__':
+ 	# print np.mean(Perl)
+ 
+ 	# plt.show()
+-	plt.savefig('outcutilityboul_t.pdf', format='pdf', dpi=1000)
+\ No newline at end of file
++	plt.savefig('meetutilityboul.pdf', format='pdf', dpi=1000)
+\ No newline at end of file

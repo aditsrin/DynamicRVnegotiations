@@ -335,6 +335,10 @@ def generatereservationvalue(flag,roundnum,RV):
 
 def main(A_utility_space,B_utility_space,Deadline):
 	All_UpdateRates = [2,5,10,20,50]
+
+	PValue_A=[]
+	PValue_B=[]
+
 	for UpdateRate in All_UpdateRates:
 
 		print "------ " + str(UpdateRate)  +  " -------"
@@ -342,9 +346,15 @@ def main(A_utility_space,B_utility_space,Deadline):
 		Averageutility_A = 0.0
 		Averageutility_B = 0.0
 
-		disagree =0 
+		disagree = 0  
+		NR = 101
+		A_acceptedbids =[]
+		B_acceptedbids =[]
 
-		for iterations in xrange(1,101):
+		agree_A = 0
+		agree_B = 0
+
+		for iterations in xrange(1,NR):
 			rv = 0
 
 			closest_val = lambda num,collection:min(collection,key=lambda x:abs(x-num))   #####  --> compute closest value
@@ -358,15 +368,15 @@ def main(A_utility_space,B_utility_space,Deadline):
 			# print A
 
 			# UpdateRate = 2
-			meetingrandom_rv=[]
-			meetingrandomRV(meetingrandom_rv)
-			random_rv=meetingrandom_rv
+			# meetingrandom_rv=[]
+			# meetingrandomRV(meetingrandom_rv)
+			# random_rv=meetingrandom_rv
 			delaylist=[]
 
 
 			RV=[0]
 			# random_rv=[0.12,0.75]         ###-> fire
-			# random_rv=[0.12,0.321,0.57,0.75]
+			random_rv=[0.12,0.321,0.57,0.75]
 
 			counter = []
 			counter_weights = []
@@ -397,8 +407,8 @@ def main(A_utility_space,B_utility_space,Deadline):
 			new_WeightedUtility=[]
 
 			for rv in random_rv:
-				# Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
-				Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
+				Utilities.append(GenerateTimUtility(rv,Deadline))     ######   ----> Tims
+				# Utilities.append(boulwareUtilities(rv,Deadline))        ######   -----> Boulware
 
 			# print Utilities[1]
 			# break
@@ -419,11 +429,11 @@ def main(A_utility_space,B_utility_space,Deadline):
 				# roundnum = i
 
 				# RV.append(float("{0:.4f}".format(generatereservationvalue(7,roundnum-1,RV)) ))
-				# RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
-				RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
+				RV.append( float( "{0:.4f}".format( FireRV(RV,roundnum-1,Deadline,UpdateRate,GridSize,Gridcoords) ) ) )     #### RV -> update Fire
+				# RV.append(float("{0:.4f}".format( getmeetingrv(RV,roundnum-1,UpdateRate,delaylist,Deadline) ) ) )           ##### RV -> meeting domain
 
-				# A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
-				A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
+				A = GenerateTimUtility(RV[-1],Deadline)         ###### -> ONAC
+				# A = boulwareUtilities(RV[-1],Deadline)            ###### -> Boulware
 				A.reverse()
 
 				ind=getindex(RV[roundnum],intervals)
@@ -464,6 +474,8 @@ def main(A_utility_space,B_utility_space,Deadline):
 					# print "B's utility: " , B_utility_space[B_old_bid]  , " A's utility: " , A_utility_space[B_old_bid]
 					Averageutility_A += A_utility_space[B_old_bid]
 					Averageutility_B += B_utility_space[B_old_bid]
+					A_acceptedbids.append(A_utility_space[A_bid])
+					B_acceptedbids.append(B_utility_space[A_bid])
 					agree =1
 					break
 				# print A_ut
@@ -491,6 +503,8 @@ def main(A_utility_space,B_utility_space,Deadline):
 					# print "B's utility: " , B_utility_space[A_bid]  , " A's utility: " , A_utility_space[A_bid]
 					Averageutility_A += A_utility_space[A_bid]
 					Averageutility_B += B_utility_space[A_bid]
+					A_acceptedbids.append(A_utility_space[A_bid])
+					B_acceptedbids.append(B_utility_space[A_bid])
 					agree = 1
 					break
 
@@ -499,17 +513,33 @@ def main(A_utility_space,B_utility_space,Deadline):
 					B_bid = random.choice(keys)
 					B_old_bid=B_bid
 					# print "bid sent to agent A: " , B_bid
+			if(agree==-1):
+				disagree +=1
+				A_acceptedbids.append(0.0)
+				B_acceptedbids.append(0.0)
 
 			# print counter_weighted_utility
 			# print B
 			# print len(counter_weighted_utility) , len(B)
-		if(agree==-1):
-			disagree +=1
-		Averageutility_A = Averageutility_A / 100
-		Averageutility_B = Averageutility_B / 100
+
+		PValue_A.append(A_acceptedbids)
+		PValue_B.append(B_acceptedbids)
+		
+		Averageutility_A = Averageutility_A / (NR-1)
+		Averageutility_B = Averageutility_B / (NR-1)
  
 		print "A's average utility: " , Averageutility_A , " B's average utility: " , Averageutility_B
 		print "Disagreements are: " , disagree
+
+	# print len(PValue_B) , len(PValue_B[0]) , PValue_B
+	# print "beforee"
+	PValue_B = np.asarray(PValue_B).reshape(-1)
+	# print len(PValue_B), PValue_B.shape , PValue_B
+	# print len(PValue_A) , len(PValue_A[0])
+	PValue_A = np.asarray(PValue_A).reshape(-1)
+	# np.save(PValue_B,"BayesianBoulwareMeeting.np")
+	whole = np.array([PValue_A, PValue_B])
+	np.savetxt("CounterONACFire4.csv", whole.transpose(), delimiter=" ")
 
 if __name__ == '__main__':
 
